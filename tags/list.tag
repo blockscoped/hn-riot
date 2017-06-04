@@ -1,5 +1,4 @@
 <hn-list>
-  <p>{ path }</p>
   <ul>
     <li each="{ data }" id="{ id }">
       <span class="number">{ points }</span>
@@ -19,6 +18,12 @@
   </ul>
 
   <style>
+    :scope {
+      background: #eee;
+      display: block;
+      padding: 8px 0;
+    }
+
     :scope ul {
       list-style: none;
       padding: 0 16px;
@@ -32,17 +37,23 @@
       margin: 16px 0;
       border: 1px solid #dedede;
       box-shadow: 0 2px 3px rgba(0,0,0,0.15);
+      background: #fff;
     }
 
     :scope ul li > * {
       display: block;
     }
-    
+
     :scope .number {
       position: absolute;
       left: 16px;
       top: 50%;
       transform: translateY(-50%);
+    }
+
+    :scope .title {
+      display: block;
+      margin-bottom: 8px; 
     }
   </style>
 
