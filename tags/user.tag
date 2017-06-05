@@ -5,15 +5,29 @@
     <p>Karma: { user.karma }</p>
     <br>
     <div>
-      <a href="https://news.ycombinator.com/submitted?id={ user.id }">sumbmissions</a>
-      <a href="https://news.ycombinator.com/threads?id={ user.id }">comments</a>
-      <a href="https://news.ycombinator.com/favorites?id={ user.id }">favorites</a>
+      <p>
+        <a href="https://news.ycombinator.com/submitted?id={ user.id }">sumbmissions</a> &#x7C;
+        <a href="https://news.ycombinator.com/threads?id={ user.id }">comments</a> |
+        <a href="https://news.ycombinator.com/favorites?id={ user.id }">favorites</a>
+      </p>
     </div>
   </div>
 
   <div if="{ !user.id }">
     <h1>User not found</h1>
   </div>
+
+  <style>
+    :scope {
+      display: block;
+      padding: 16px;
+    }
+
+    :scope h1 {
+      margin: 0 0 16px 0;
+      font-size: 24px;
+    }
+  </style>
 
   <script>
     this.user = {}

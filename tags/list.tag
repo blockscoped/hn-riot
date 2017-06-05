@@ -1,17 +1,25 @@
 <hn-list>
+  <div class="paging">
+    <a if="{ page > 1 }" href="#{ path }/{ page - 1 }" class="prev">< Prev</a>
+    <a if="{ page <= 1 }" class="prev disabled">< Prev</a>
+    <p>Page { page }</p>
+    <a if="{ data.length >= 30 }" href="#{ path }/{ parseInt(page, 10) + 1 }" class="next">Next ></a>
+    <a if="{ data.length < 30 }" class="next disabled">Next ></a>
+  </div>
+
   <ul>
-    <li each="{ data }" id="{ id }">
-      <span class="number">{ points }</span>
+    <li each="{ item, index in data }" id="{ id }">
+      <span class="index">{ (index + 1) + (30 * (parseInt(page, 10) - 1)) }</span>
       <span class="title">
-        <a href="{ url }">{ title }</a>
-        <span class="host">({ domain })</span>
+        <a href="{ item.url }">{ item.title }</a>
+        <span class="host">({ item.domain })</span>
       </span>
       <span class="meta">
-        <span class="score">{ points } points</span>
-        <span class="by">by <a href="#/user/{ user }">{ user }</a></span>
-        <span class="time">{ time_ago }</span>
+        <span class="score">{ item.points } points</span>
+        <span class="by">by <a href="#/user/{ item.user }">{ item.user }</a></span>
+        <span class="time">{ item.time_ago }</span>
         <span class="comments_link">
-          | <a href="#item/{ id }">{ comments_count } comments</a>
+          | <a href="#item/{ item.id }">{ item.comments_count } comments</a>
         </span>
       </span>
     </li>
@@ -21,12 +29,17 @@
     :scope {
       background: #eee;
       display: block;
-      padding: 8px 0;
+      padding: 16px;
+    }
+
+    :scope .paging  {
+      display: flex;
+      justify-content: space-between;
     }
 
     :scope ul {
       list-style: none;
-      padding: 0 16px;
+      padding: 0;
       margin: 0;
     }
 
@@ -44,7 +57,7 @@
       display: block;
     }
 
-    :scope .number {
+    :scope .index {
       position: absolute;
       left: 16px;
       top: 50%;
@@ -62,29 +75,34 @@
     var fetchBaseUrl = 'https://node-hnapi.herokuapp.com'
     this.fetching = false
     this.data = [];
+    this.page = opts.page || 1
     this.path = opts.path || 'top'
 
     this.on('mount', function() {
+      console.log(self.page)
+
       if (!self.fetching) {
         self.fetching = true
-        self.fetchList(self.path)
+        self.fetchList(self.path, self.page)
       } else {
         self.fetching = false
       }
     })
 
     this.on('update', function() {
+      console.log(self.page)
+
       if (!self.fetching) {
         self.fetching = true
-        self.fetchList(self.path)
+        self.fetchList(self.path, self.page)
       } else {
         self.fetching = false
       }
     })
 
-    // this.on('*', function(eventName) {
-    //   console.info(eventName)
-    // })
+    this.on('*', function(eventName) {
+      console.info(eventName)
+    })
 
     fetch(url) {
       return new Promise(function(resolve, reject) {

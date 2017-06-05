@@ -24,6 +24,10 @@
       border-top: 1px solid #dedede;
     }
 
+    :scope .by {
+      margin-bottom: 8px;
+    }
+
     :scope .comments {
       position: relative;
     }

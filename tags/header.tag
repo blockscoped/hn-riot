@@ -1,7 +1,7 @@
 <hn-header class="hn-header">
   <nav>
     <ul>
-      <li each={ views }><a href="#{ route }">{ name }</a></li>
+      <li each={ views }><a href="#{ route }/1">{ name }</a></li>
     </ul>
   </nav>
 
@@ -49,8 +49,8 @@
 
   <script type="text/javascript">
     this.views = [
-      {name: 'Top', route: 'top'},
-      {name: 'New', route: 'news'},
+      {name: 'Top', route: 'news'},
+      {name: 'New', route: 'newest'},
       {name: 'Show', route: 'show'},
       {name: 'Ask', route: 'ask'},
       {name: 'Jobs', route: 'jobs'}
