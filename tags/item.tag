@@ -46,7 +46,12 @@
     this.data = [];
 
     this.on('mount', function() {
-      self.fetchItem(self.id)
+      if (!self.fetching) {
+        self.fetching = true
+        self.fetchItem(self.id)
+      } else {
+        self.fetching = false
+      }
     })
 
     this.on('update', function() {
@@ -111,7 +116,6 @@
       if (id) {
         var url = fetchBaseUrl + id;
         self.makeFetch(url).then(function(data) {
-          console.log(data)
           self.data = data
           self.update()
         });

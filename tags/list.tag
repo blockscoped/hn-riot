@@ -8,7 +8,7 @@
       </span>
       <span class="meta">
         <span class="score">{ points } points</span>
-        <span class="by">by <a href="#">{ user }</a></span>
+        <span class="by">by <a href="#/user/{ user }">{ user }</a></span>
         <span class="time">{ time_ago }</span>
         <span class="comments_link">
           | <a href="#item/{ id }">{ comments_count } comments</a>
@@ -63,8 +63,14 @@
     this.fetching = false
     this.data = [];
     this.path = opts.path || 'top'
+
     this.on('mount', function() {
-      self.fetchList(self.path)
+      if (!self.fetching) {
+        self.fetching = true
+        self.fetchList(self.path)
+      } else {
+        self.fetching = false
+      }
     })
 
     this.on('update', function() {
@@ -113,7 +119,6 @@
           url += '?page=' + page;
         }
         self.makeFetch(url).then(function(data) {
-          console.log(data)
           self.data = data
           self.update()
         });

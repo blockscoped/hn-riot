@@ -10,7 +10,8 @@
       new Router.Route({path: 'show', tag: 'hn-list', api: {path: 'show'}}),
       new Router.Route({path: 'ask', tag: 'hn-list', api: {path: 'ask'}}),
       new Router.Route({path: 'jobs', tag: 'hn-list', api: {path: 'jobs'}}),
-      new Router.Route({path: 'item/:id', tag: 'hn-item', api: {path: 'item'}}),
+      new Router.Route({path: 'item/:id', tag: 'hn-item'}),
+      new Router.Route({path: 'user/:id', tag: 'hn-user'}),
       new Router.DefaultRoute({tag: 'hn-stage', api: {path: 'top'}})
     ])
     router.start()
