@@ -3,6 +3,14 @@
 
   <route></route>
 
+  <style>
+    :scope {
+      position: relative;
+      display: block;
+      padding-top: 56px;
+    }
+  </style>
+
   <script>
     router.routes([
       new Router.Route({path: 'news/:page', tag: 'hn-list', api: {path: 'news'}}),

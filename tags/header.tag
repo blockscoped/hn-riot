@@ -1,26 +1,126 @@
-<hn-header class="hn-header">
+<hn-header class="hn-header { navigating : menuOpen }">
+  <a href="#" class="nav-toggle" onclick="{ showMenu }">Menu</a>
+  <a href="http://riotjs.com" class="logo"><img src="/assets/riot120x.png" alt=""></a>
+
   <nav>
     <ul>
-      <li each={ views }><a href="#{ route }/1">{ name }</a></li>
+      <li each={ views }><a href="#{ route }/1" onclick="{ hideMenu }">{ name }</a></li>
     </ul>
   </nav>
 
+  <a href="#" class="overlay" onclick="{ hideMenu }"></a>
+
   <style>
     :scope {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 56px;
       display: flex;
-      justify-content: center;
       background: #e41e48;
       color: #fff;
+      padding: 0 16px;
+      z-index: 2;
+      align-items: center;
+      box-shadow: 0 3px 5px rgba(0,0,0,0.25);
+    }
+
+    :scope .logo {
+      display: flex;
+      width: 60px;
+      align-items: center;
+    }
+
+    :scope .logo > img {
+      display: block;
+      width: 100%;
+      height: auto;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.25);
     }
 
     :scope nav {
       display: inline-block;
     }
 
+    :scope .overlay {
+      position: fixed;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 2;
+      background: rgba(0,0,0,0.65);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.25s ease;
+    }
+
+    :scope .nav-toggle {
+      width: 40px;
+      height: 40px;
+      font-size: 0;
+      text-decoration: none;
+      display: none;
+    }
+
+    :scope .nav-toggle:after {
+      content: '\02261';
+      font-size: 48px;
+      color: #fff;
+      line-height: 0.7;
+    }
+
+    @media screen and (max-width: 650px) {
+      :scope {
+        justify-content: space-between;
+      }
+
+      :scope .nav-toggle {
+        display: block;
+      }
+
+      :scope nav {
+        position: fixed;
+        left: 0;
+        z-index: 3;
+        background: #e41e48;
+        top: 0;
+        bottom: 0;
+        width: 160px;
+        transform: translateX(-100%);
+        transition: transform 0.25s ease;
+      }
+
+      :scope.navigating nav {
+        transform: translateX(0);
+      }
+
+      :scope.navigating .overlay {
+        visibility: visible;
+        opacity: 1;
+      }
+
+      :scope nav ul {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      :scope nav ul li {
+        width: 100%;
+      }
+
+      :scope nav ul li a {
+        justify-content: flex-start;
+      }
+    }
+
     :scope ul {
       list-style: none;
       margin: 0;
       padding: 0;
+      display: flex;
+      height: 100%;
     }
 
     :scope ul li {
@@ -28,7 +128,10 @@
     }
 
     :scope ul li a {
-      display: block;
+      display: flex;
+      height: 100%;
+      justify-content: center;
+      align-items: center;
       padding: 16px;
       min-width: 80px;
       box-sizing: border-box;
@@ -47,7 +150,8 @@
     }
   </style>
 
-  <script type="text/javascript">
+  <script>
+    this.menuOpen = false
     this.views = [
       {name: 'Top', route: 'news'},
       {name: 'New', route: 'newest'},
@@ -55,5 +159,17 @@
       {name: 'Ask', route: 'ask'},
       {name: 'Jobs', route: 'jobs'}
     ]
+
+    showMenu(e) {
+      e.preventDefault()
+      this.menuOpen = true
+    }
+
+    hideMenu(e) {
+      if (e.target.classList.length && e.target.classList[0].indexOf('overlay') !== -1) {
+        e.preventDefault()
+      }
+      this.menuOpen = false
+    }
   </script>
 </hn-header>
