@@ -29,12 +29,23 @@
     :scope {
       background: #eee;
       display: block;
-      padding: 16px;
+      padding: 64px 16px 16px 16px;
     }
 
     :scope .paging  {
       display: flex;
       justify-content: space-between;
+      position: fixed;
+      top: 56px;
+      left: 0;
+      right: 0;
+      padding: 16px;
+      height: 56px;
+      box-sizing: border-box;
+      background: #fff;
+      z-index: 1;
+      border-bottom: 1px solid #dedede;
+      box-shadow: 0 3px 5px rgba(0,0,0,0.25);
     }
 
     :scope ul {
@@ -79,8 +90,6 @@
     this.path = opts.path || 'top'
 
     this.on('mount', function() {
-      console.log(self.page)
-
       if (!self.fetching) {
         self.fetching = true
         self.fetchList(self.path, self.page)
@@ -90,8 +99,6 @@
     })
 
     this.on('update', function() {
-      console.log(self.page)
-
       if (!self.fetching) {
         self.fetching = true
         self.fetchList(self.path, self.page)
@@ -100,9 +107,9 @@
       }
     })
 
-    this.on('*', function(eventName) {
-      console.info(eventName)
-    })
+    // this.on('*', function(eventName) {
+    //   console.info(eventName)
+    // })
 
     fetch(url) {
       return new Promise(function(resolve, reject) {

@@ -4,7 +4,7 @@
 
   <nav>
     <ul>
-      <li each={ views }><a href="#{ route }/1" onclick="{ hideMenu }">{ name }</a></li>
+      <li each={ views }><a href="#{ route }/1" class="{ active : activeRoute == route }" onclick="{ hideMenu }">{ name }</a></li>
     </ul>
   </nav>
 
@@ -30,6 +30,7 @@
       display: flex;
       width: 60px;
       align-items: center;
+      margin-right: 16px;
     }
 
     :scope .logo > img {
@@ -41,6 +42,7 @@
 
     :scope nav {
       display: inline-block;
+      height: 100%;
     }
 
     :scope .overlay {
@@ -144,14 +146,17 @@
       text-decoration: underline;
     }
 
-    :scope ul li a:active,
     :scope ul li a.active {
-      border-bottom: 3px solid fff;
+      border-bottom: 3px solid #fff;
     }
   </style>
 
   <script>
+    var self = this
     this.menuOpen = false
+    this.activeRoute = 'news'
+    this.previousRoute = 'news'
+    this.routing = false
     this.views = [
       {name: 'Top', route: 'news'},
       {name: 'New', route: 'newest'},
@@ -159,6 +164,32 @@
       {name: 'Ask', route: 'ask'},
       {name: 'Jobs', route: 'jobs'}
     ]
+
+    router.on('route:updated', function(route) {
+      var newRoute = route.uri.match(/[a-z,A-Z]+/)[0]
+
+      if (self.activeRoute !== newRoute) {
+        self.routing = true
+        self.previousRoute = self.activeRoute
+        self.activeRoute = newRoute
+        self.update()
+        self.routing = false
+      }
+    })
+
+    this.on('mount', function() {
+      self.routing = true
+      self.activeRoute = router.current.uri.match(/[a-z,A-Z]+/)[0]
+      self.update()
+      self.routing = false
+    })
+
+    shouldUpdate(data, nextOpts) {
+      if (self.routing) {
+        return true
+      }
+      return false
+    }
 
     showMenu(e) {
       e.preventDefault()
