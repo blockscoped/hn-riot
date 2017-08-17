@@ -115,6 +115,11 @@
       :scope nav ul li a {
         justify-content: flex-start;
       }
+
+      :scope nav ul li a.active {
+        border-bottom: none;
+        background: rgba(255,255,255,0.25);
+      }
     }
 
     :scope ul {
@@ -156,7 +161,7 @@
     this.menuOpen = false
     this.activeRoute = 'news'
     this.previousRoute = 'news'
-    this.routing = false
+    this.shouldUpdate = false
     this.views = [
       {name: 'Top', route: 'news'},
       {name: 'New', route: 'newest'},
@@ -169,23 +174,23 @@
       var newRoute = route.uri.match(/[a-z,A-Z]+/)[0]
 
       if (self.activeRoute !== newRoute) {
-        self.routing = true
+        self.shouldUpdate = true
         self.previousRoute = self.activeRoute
         self.activeRoute = newRoute
         self.update()
-        self.routing = false
+        self.shouldUpdate = false
       }
     })
 
     this.on('mount', function() {
-      self.routing = true
+      self.shouldUpdate = true
       self.activeRoute = router.current.uri.match(/[a-z,A-Z]+/)[0]
       self.update()
-      self.routing = false
+      self.shouldUpdate = false
     })
 
     shouldUpdate(data, nextOpts) {
-      if (self.routing) {
+      if (self.shouldUpdate) {
         return true
       }
       return false
@@ -193,14 +198,18 @@
 
     showMenu(e) {
       e.preventDefault()
+      this.shouldUpdate = true
       this.menuOpen = true
+      this.shouldUpdate = false
     }
 
     hideMenu(e) {
       if (e.target.classList.length && e.target.classList[0].indexOf('overlay') !== -1) {
         e.preventDefault()
       }
+      this.shouldUpdate = true
       this.menuOpen = false
+      this.shouldUpdate = false
     }
   </script>
 </hn-header>

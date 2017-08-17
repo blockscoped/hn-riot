@@ -57,9 +57,12 @@
     })
 
     fetch(url) {
+      // var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
       return new Promise(function(resolve, reject) {
         var request = new XMLHttpRequest()
-        request.onerror = reject
+        request.onerror = function(err) {
+          reject(err)
+        }
         request.onload = function() {
           resolve({
             json: function() {
@@ -88,6 +91,8 @@
         self.makeFetch(url).then(function(data) {
           self.user = data
           self.update()
+        }).catch(function(err) {
+          console.log(err)
         });
       }
     }

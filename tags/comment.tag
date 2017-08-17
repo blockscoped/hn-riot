@@ -30,6 +30,7 @@
 
     :scope .comments {
       position: relative;
+      margin-top: 8px;
     }
 
     :scope input[type=checkbox] {

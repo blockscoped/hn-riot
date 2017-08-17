@@ -3,17 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <title>Document</title>
+  <meta name="viewport" content="initial-scale=1.0">
   <style>body {margin: 0;}</style>
   <link rel="stylesheet" href="theme.css">
 </head>
 <body>
   <app></app>
   <script src="node_modules/riot/riot+compiler.min.js"></script>
-  <!-- <script src="node_modules/riot-route/dist/route+tag.js"></script> -->
-  <script src="node_modules/riot-router/dist/router.min.js"></script>
+  <script src="node_modules/riot-route/dist/route+tag.js"></script>
+  <!-- <script src="node_modules/riot-router/dist/router.min.js"></script> -->
   <script src="dist/bundle.js"></script>
   <script>
-    riot.mount('*');
+    riot.mount('app');
   </script>
 </body>
 </html>
